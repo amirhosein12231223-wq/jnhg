@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>برنامه هفتگی قابل ویرایش</title>
+  <style>
+    body {
+      font-family: "Vazir", Arial, sans-serif;
+      background-color: #f7f7f7;
+      direction: rtl;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 95%;
+      margin: auto;
+      border-collapse: collapse;
+      background-color: white;
+      border: 2px solid #444;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 10px;
+      text-align: center;
+      font-size: 15px;
+      min-width: 80px;
+    }
+
+    th {
+      background-color: #e6e6e6;
+    }
+
+    td {
+      cursor: pointer;
+    }
+
+    td:focus {
+      outline: 2px solid #007bff;
+      background-color: #eef6ff;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fbfbfb;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>برنامه هفتگی قابل ویرایش</h1>
+
+  <table id="schedule-table">
+    <tr>
+      <th>روز / ساعت</th>
+      <th>07:30–08:15</th>
+      <th>08:15–09:00</th>
+      <th>09:00–09:45</th>
+      <th>10:00–10:45</th>
+      <th>10:45–11:30</th>
+      <th>11:30–12:15</th>
+      <th>12:15–13:00</th>
+      <th>13:00–13:45</th>
+    </tr>
+    <tr>
+      <th>شنبه</th>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <th>یکشنبه</th>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <th>دوشنبه</th>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <th>سه‌شنبه</th>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td>
+    </tr>
+    <tr>
+      <th>چهارشنبه</th>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>
+      <td contenteditable="true"></td><td contenteditable="true"></td>
+    </tr>
+  </table>
+
+  <button onclick="clearSchedule()">🗑 پاک کردن جدول</button>
+
+  <div class="footer-note">
+    تغییرات شما به‌صورت خودکار ذخیره می‌شوند ✅
+  </div>
+
+  <script>
+    const table = document.getElementById("schedule-table");
+
+    // بارگذاری داده‌ها از localStorage
+    window.onload = function() {
+      const savedData = JSON.parse(localStorage.getItem("weeklySchedule"));
+      if (savedData) {
+        const cells = table.querySelectorAll("td");
+        cells.forEach((cell, index) => {
+          if (savedData[index]) cell.innerText = savedData[index];
+        });
+      }
+    };
+
+    // ذخیره خودکار هنگام تغییر
+    table.addEventListener("input", () => {
+      const cells = Array.from(table.querySelectorAll("td")).map(td => td.innerText);
+      localStorage.setItem("weeklySchedule", JSON.stringify(cells));
+    });
+
+    // دکمه پاک کردن داده‌ها
+    function clearSchedule() {
+      if (confirm("آیا از پاک کردن برنامه مطمئن هستید؟")) {
+        table.querySelectorAll("td").forEach(td => td.innerText = "");
+        localStorage.removeItem("weeklySchedule");
+      }
+    }
+  </script>
+
+</body>
+</html>
